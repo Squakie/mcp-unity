@@ -7,10 +7,9 @@
 [![](https://img.shields.io/github/last-commit/CoderGamester/mcp-unity 'Last Commit')](https://github.com/CoderGamester/mcp-unity/commits/main)
 [![](https://img.shields.io/badge/License-MIT-red.svg 'MIT License')](https://opensource.org/licenses/MIT)
 
-| [English](README.md) | [🇨🇳简体中文](README_zh-CN.md) | [🇯🇵日本語](README-ja.md) |
+| [🇺🇸English](README.md) | [🇨🇳简体中文](README_zh-CN.md) | [🇯🇵日本語](README-ja.md) |
 |----------------------|---------------------------------|----------------------|
 
-```                                                                        
                               ,/(/.   *(/,                                  
                           */(((((/.   *((((((*.                             
                      .*((((((((((/.   *((((((((((/.                         

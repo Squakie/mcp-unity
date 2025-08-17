@@ -1,13 +1,13 @@
 # MCP Unity Editor（ゲームエンジン）
 
-[![](https://badge.mcpx.dev?status=on 'MCP 有効')](https://modelcontextprotocol.io/introduction)
+[![](https://badge.mcpx.dev?status=on 'MCP Enabled')](https://modelcontextprotocol.io/introduction)
 [![](https://img.shields.io/badge/Unity-000000?style=flat&logo=unity&logoColor=white 'Unity')](https://unity.com/releases/editor/archive)
 [![](https://img.shields.io/badge/Node.js-339933?style=flat&logo=nodedotjs&logoColor=white 'Node.js')](https://nodejs.org/en/download/)
-[![](https://img.shields.io/github/stars/CoderGamester/mcp-unity 'スター')](https://github.com/CoderGamester/mcp-unity/stargazers)
-[![](https://img.shields.io/github/last-commit/CoderGamester/mcp-unity '最終コミット')](https://github.com/CoderGamester/mcp-unity/commits/main)
-[![](https://img.shields.io/badge/License-MIT-red.svg 'MIT ライセンス')](https://opensource.org/licenses/MIT)
+[![](https://img.shields.io/github/stars/CoderGamester/mcp-unity 'Stars')](https://github.com/CoderGamester/mcp-unity/stargazers)
+[![](https://img.shields.io/github/last-commit/CoderGamester/mcp-unity 'Last Commit')](https://github.com/CoderGamester/mcp-unity/commits/main)
+[![](https://img.shields.io/badge/License-MIT-red.svg 'MIT License')](https://opensource.org/licenses/MIT)
 
-| [英語](README.md) | [🇨🇳簡体中文](README_zh-CN.md) | [🇯🇵日本語](README-ja.md) |
+| [🇺🇸英語](README.md) | [🇨🇳簡体中文](README_zh-CN.md) | [🇯🇵日本語](README-ja.md) |
 |----------------------|---------------------------------|----------------------|
 
 ```                                                                        
