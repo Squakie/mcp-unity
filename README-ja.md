@@ -114,8 +114,6 @@ MCP Unityは、Unityの`Library/PackedCache`フォルダーをワークスペー
 - Node.js 18以降 - [サーバーを起動](#start-server)するため
 - npm 9以降 - [サーバーをデバッグ](#debug-server)するため
 
-## <a name="install-server"></a>インストール
-
 > [!IMPORTANT]
 > **プロジェクトパスにスペースを含めることはできません**
 >
@@ -127,6 +125,8 @@ MCP Unityは、Unityの`Library/PackedCache`フォルダーをワークスペー
 > -   ❌ **失敗します:** `C:\Users\Your User\Documents\Unity Projects\My Awesome Game`
 >
 > インストールを進める前に、プロジェクトがスペースを含まないパスにあることを確認してください。
+
+## <a name="install-server"></a>インストール
 
 このMCP Unityサーバーのインストールは複数ステップのプロセスです：
 
@@ -213,35 +213,24 @@ AIクライアントのMCP設定ファイル（例：Claude Desktopのclaude_des
 
 ## <a name="start-server"></a>サーバーの起動
 
-MCP Unityサーバーを起動するには2つの方法があります：
-
-## オプション: Node.jsサーバーのインストール
-デフォルトでは、Node.jsサーバーは `Server~/` ディレクトリにインストールされます。
-問題が発生した場合は、以下の手順で強制的にインストールできます：
-
 1. Unityエディターを開く
-2. メニューから Tools > MCP Unity > Server Window に移動
-3. 「Force Install Server」ボタンをクリック
-
-> [!TIP]
-> Node.js サーバーは `Server~/` ディレクトリにインストールされます。
-
-
-### オプション1: Unityエディター経由で起動
-1. Unityエディターを開く
-2. Tools > MCP Unity > Server Windowに移動
-3. "Start Server"ボタンをクリック
-4. Open Claude Desktop or your AI Coding IDE (e.g. Cursor IDE, Windsurf IDE, etc.) and start executing Unity tools
+2. Tools > MCP Unity > Server Window に移動
+3. "Start Server" をクリックして WebSocket サーバーを起動
+4. Claude Desktop または AI コーディング IDE（例：Cursor IDE、Windsurf IDE など）を開き、Unity ツールの実行を開始
    
 ![connect](https://github.com/user-attachments/assets/2e266a8b-8ba3-4902-b585-b220b11ab9a2)
 
-### オプション2: コマンドラインから起動
-1. ターミナルまたはコマンドプロンプトを開く
-2. MCP Unityサーバーディレクトリに移動
-3. 以下のコマンドを実行：
-   ```bash
-   node Server~/build/index.js
-   ```
+> AI クライアントが WebSocket サーバーに接続すると、ウィンドウの緑色のボックスに自動的に表示されます
+
+## オプション：WebSocket ポートを設定
+デフォルトでは、WebSocket サーバーは '8090' ポートで動作します。次の手順でポートを変更できます：
+
+1. Unityエディターを開く
+2. Tools > MCP Unity > Server Window に移動
+3. "WebSocket Port" の値を希望のポート番号に変更
+4. Unity はシステム環境変数 UNITY_PORT を新しいポート番号に設定
+5. Node.js サーバーを再起動
+6. 再度 "Start Server" をクリックして、Unity Editor の WebSocket を Node.js MCP サーバーに再接続
 
 ## オプション: タイムアウト設定
 
@@ -270,29 +259,74 @@ MCP Unityサーバーを起動するには2つの方法があります：
 6. リモートで MCP ブリッジを実行する場合は、環境変数 UNITY_HOST を Unity 実行マシンの IP アドレスに設定して起動：  
    `UNITY_HOST=192.168.1.100 node server.js`
 
-## サポート & フィードバック
+## <a name="debug-server"></a>サーバーのデバッグ
 
-ご質問やサポートが必要な場合は、このリポジトリの[Issue](https://github.com/CoderGamester/mcp-unity/issues)を開くか、以下までご連絡ください：
-- LinkedIn: [![](https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white 'LinkedIn')](https://www.linkedin.com/in/miguel-tomas/)
-- Discord: gamester7178
-- Email: game.gamester@gmail.com
+<details>
+<summary><span style="font-size: 1.1em; font-weight: bold;">Node.js サーバーのビルド</span></summary>
 
-## 貢献
+MCP Unity サーバーは Node.js で構築されています。TypeScript コードを `build` ディレクトリにコンパイルする必要があります。問題がある場合は、以下の手順で強制的にインストールできます：
 
-貢献は大歓迎です！プルリクエストを送信するか、Issueを開いてください。
+1. Unityエディターを開く
+2. Tools > MCP Unity > Server Window に移動
+3. 「Force Install Server」ボタンをクリック
 
-**コミットメッセージ**は[Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)形式に従ってください。
+![install](docs/install.jpg)
 
-## ライセンス
+手動でビルドする場合は、以下の手順に従ってください：
 
-本プロジェクトは[MIT License](License.md)の下で提供されます。
+1. ターミナル/PowerShell/コマンドプロンプトを開く
+2. Server ディレクトリに移動：
+   ```bash
+   cd ABSOLUTE/PATH/TO/mcp-unity/Server~
+   ```
+3. 依存関係をインストール：
+   ```bash
+   npm install
+   ```
+4. サーバーをビルド：
+   ```bash
+   npm run build
+   ```
+5. サーバーを実行：
+   ```bash
+   node build/index.js
+   ```
 
-## 謝辞
+</details>
 
-- Model Context Protocol
-- Unity Technologies
-- Node.js
-- WebSocket-Sharp
+<details>
+<summary><span style="font-size: 1.1em; font-weight: bold;">MCP Inspector でデバッグ</span></summary>
+
+[@modelcontextprotocol/inspector](https://github.com/modelcontextprotocol/inspector) を使用してサーバーをデバッグします：
+   - Powershell
+   ```powershell
+   npx @modelcontextprotocol/inspector node Server~/build/index.js
+   ```
+   - コマンドプロンプト/ターミナル
+   ```cmd
+   npx @modelcontextprotocol/inspector node Server~/build/index.js
+   ```
+
+ターミナルを閉じる前、または [MCP Inspector](https://github.com/modelcontextprotocol/inspector) でデバッグする前に、必ず `Ctrl + C` でサーバーを終了してください。
+
+</details>
+
+<details>
+<summary><span style="font-size: 1.1em; font-weight: bold;">コンソールログを有効化</span></summary>
+
+1. ターミナルまたは log.txt ファイルにログ出力を有効化：
+   - Powershell
+   ```powershell
+   $env:LOGGING = "true"
+   $env:LOGGING_FILE = "true"
+   ```
+   - コマンドプロンプト/ターミナル
+   ```cmd
+   set LOGGING=true
+   set LOGGING_FILE=true
+   ```
+
+</details>
 
 ## よくある質問
 
@@ -374,3 +408,100 @@ MCP Unityは、MCPクライアントとして機能できるAIアシスタント
 
 <details>
 <summary><span style="font-size: 1.1em; font-weight: bold;">MCP Unityに接続できないのはなぜですか？</span></summary>
+
+- WebSocket サーバーが起動していることを確認（Unity の Server Window を確認）
+- MCP クライアントからコンソールログを 1 件送信して、MCP クライアントと Unity サーバー間の再接続をトリガー
+- Unity Editor の MCP Server ウィンドウ（Tools > MCP Unity > Server Window）でポート番号を変更
+
+</details>
+
+<details>
+<summary><span style="font-size: 1.1em; font-weight: bold;">MCP Unity サーバーが起動しないのはなぜですか？</span></summary>
+
+- Unity コンソールにエラーメッセージがないか確認
+- Node.js が正しくインストールされ、PATH から実行できることを確認
+- Server ディレクトリで依存関係がインストールされていることを確認
+
+</details>
+
+<details>
+<summary><span style="font-size: 1.1em; font-weight: bold;">Play Mode テストを実行すると接続失敗エラーが発生するのはなぜですか？</span></summary>
+
+`run_tests` ツールは次のレスポンスを返すことがあります：
+```
+Error:
+Connection failed: Unknown error
+```
+
+これは、Play Mode に切り替える際のドメインリロードでブリッジ接続が失われるために発生します。回避策として、**Edit > Project Settings > Editor > "Enter Play Mode Settings"** で **Reload Domain** をオフにしてください。
+
+</details>
+
+## トラブルシューティング：WSL2（Windows 11）のネットワーク
+
+WSL2 内で MCP（Node.js）サーバーを実行し、Unity が Windows 11 上で動作している場合、`ws://localhost:8090/McpUnity` への接続が `ECONNREFUSED` で失敗することがあります。
+
+原因：WSL2 と Windows は別々のネットワーク名前空間を持ち、WSL2 内の `localhost` は Windows ホストを指しません。既定では Unity は `localhost:8090` で待ち受けます。
+
+### 解決策 1 — WSL2 のミラー化ネットワークを有効化（推奨）
+- Windows 11: 設定 → システム → 開発者向け → WSL → 「ミラー化モードのネットワーク」を有効化。
+- または `.wslconfig` で設定（適用後に `wsl --shutdown` を実行して WSL を再起動）:
+
+```ini
+[wsl2]
+networkingMode=mirrored
+```
+
+有効化後は Windows と WSL2 で `localhost` が共有され、既定設定（`localhost:8090`）で動作します。
+
+### 解決策 2 — Node クライアントを Windows ホストに向ける
+MCP クライアントを起動する前に、WSL シェルで以下を設定します：
+
+```bash
+# resolv.conf から検出した Windows ホスト IP を使用
+export UNITY_HOST=$(grep -m1 nameserver /etc/resolv.conf | awk '{print $2}')
+```
+
+これにより、`Server~/src/unity/mcpUnity.ts` は `localhost` の代わりに `ws://$UNITY_HOST:8090/McpUnity` に接続します（`UNITY_HOST` を参照し、必要に応じて `ProjectSettings/McpUnitySettings.json` の `Host` も使用されます）。
+
+### 解決策 3 — Unity からのリモート接続を許可
+- Unity: Tools → MCP Unity → Server Window → 「Allow Remote Connections」を有効化（`0.0.0.0` にバインド）。
+- Windows ファイアウォールで、設定したポート（既定 8090）への受信 TCP を許可します。
+- WSL2 からは、Windows ホストの IP（解決策 2 を参照）またはミラー化有効時は `localhost` へ接続します。
+
+> [!NOTE]
+> 既定のポートは `8090` です。Unity の Server Window（Tools → MCP Unity → Server Window）で変更できます。値は `McpUnitySettings` に対応し、`ProjectSettings/McpUnitySettings.json` に保存されます。
+
+#### 接続確認
+
+```bash
+npm i -g wscat
+# ミラー化ネットワーク有効化後
+wscat -c ws://localhost:8090/McpUnity
+# または Windows ホスト IP を使用
+wscat -c ws://$UNITY_HOST:8090/McpUnity
+```
+
+## サポート & フィードバック
+
+ご質問やサポートが必要な場合は、このリポジトリの[Issue](https://github.com/CoderGamester/mcp-unity/issues)を開くか、以下までご連絡ください：
+- LinkedIn: [![](https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white 'LinkedIn')](https://www.linkedin.com/in/miguel-tomas/)
+- Discord: gamester7178
+- Email: game.gamester@gmail.com
+
+## 貢献
+
+貢献は大歓迎です！プルリクエストを送信するか、Issueを開いてください。
+
+**コミットメッセージ**は[Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)形式に従ってください。
+
+## ライセンス
+
+本プロジェクトは[MIT License](LICENSE.md)の下で提供されます。
+
+## 謝辞
+
+- [Model Context Protocol](https://modelcontextprotocol.io)
+- [Unity Technologies](https://unity.com)
+- [Node.js](https://nodejs.org)
+- [WebSocket-Sharp](https://github.com/sta/websocket-sharp)

@@ -438,10 +438,54 @@ Error:
 Connection failed: Unknown error
 ```
 
-This error occurs because the bridge connection is lost when the domain reloads upon switching to Play Mode.  
-The workaround is to turn off **Reload Domain** in **Edit > Project Settings > Editor > "Enter Play Mode Settings"**.
+This error occurs because the bridge connection is lost when the domain reloads upon switching to Play Mode.  The workaround is to turn off **Reload Domain** in **Edit > Project Settings > Editor > "Enter Play Mode Settings"**.
 
 </details>
+
+## Troubleshooting: WSL2 (Windows 11) networking
+
+When running the MCP (Node.js) server inside WSL2 while Unity runs on Windows 11, connecting to `ws://localhost:8090/McpUnity` may fail with `ECONNREFUSED`.
+
+Cause: WSL2 and Windows have separate network namespaces — `localhost` inside WSL2 does not point to the Windows host. By default, Unity listens on `localhost:8090`.
+
+### Solution 1 — Enable WSL2 Mirrored mode networking (preferred)
+- Windows 11: Settings → System → For developers → WSL → Enable “Mirrored mode networking”.
+- Or via `.wslconfig` (then run `wsl --shutdown` and reopen WSL):
+
+```ini
+[wsl2]
+networkingMode=mirrored
+```
+
+After enabling, `localhost` is shared between Windows and WSL2, so the default config (`localhost:8090`) works.
+
+### Solution 2 — Point the Node client to the Windows host
+Set in your WSL shell before starting the MCP client:
+
+```bash
+# Use the Windows host IP detected from resolv.conf
+export UNITY_HOST=$(grep -m1 nameserver /etc/resolv.conf | awk '{print $2}')
+```
+
+With this, `Server~/src/unity/mcpUnity.ts` will connect to `ws://$UNITY_HOST:8090/McpUnity` instead of `localhost` (it reads `UNITY_HOST`, and may also honor a `Host` in `ProjectSettings/McpUnitySettings.json` if present).
+
+### Solution 3 — Allow remote connections from Unity
+- Unity: Tools → MCP Unity → Server Window → enable “Allow Remote Connections” (Unity binds to `0.0.0.0`).
+- Ensure Windows Firewall allows inbound TCP on your configured port (default 8090).
+- From WSL2, connect to the Windows host IP (see Solution 2) or to `localhost` if mirrored mode is enabled.
+
+> [!NOTE]
+> Default port is `8090`. You can change it in the Unity Server Window (Tools → MCP Unity → Server Window). The value maps to `McpUnitySettings` and is persisted in `ProjectSettings/McpUnitySettings.json`.
+
+#### Validate connectivity
+
+```bash
+npm i -g wscat
+# After enabling mirrored networking
+wscat -c ws://localhost:8090/McpUnity
+# Or using the Windows host IP
+wscat -c ws://$UNITY_HOST:8090/McpUnity
+```
 
 ## Support & Feedback
 
@@ -458,7 +502,7 @@ Contributions are welcome! Please feel free to submit a Pull Request or open an 
 
 ## License
 
-This project is under [MIT License](License.md)
+This project is under [MIT License](LICENSE.md)
 
 ## Acknowledgements
 
