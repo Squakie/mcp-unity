@@ -25,7 +25,7 @@ namespace McpUnity.Tools
         public override JObject Execute(JObject parameters)
         {
             // Extract parameters
-            string scriptName = parameters["scriptName"]?.ToObject<string>();
+            string componentName = parameters["componentName"]?.ToObject<string>();
             string prefabName = parameters["prefabName"]?.ToObject<string>();
             JObject fieldValues = parameters["fieldValues"]?.ToObject<JObject>();
             
@@ -42,12 +42,12 @@ namespace McpUnity.Tools
             GameObject tempObject = new GameObject(prefabName);
 
             // Add component if provided
-            if (!string.IsNullOrEmpty(scriptName))
+            if (!string.IsNullOrEmpty(componentName))
             {
                 try
                 {
                     // Add component
-                    Component component = AddComponent(tempObject, scriptName);
+                    Component component = AddComponent(tempObject, componentName);
             
                     // Apply field values if provided and component exists
                     ApplyFieldValues(fieldValues, component);
@@ -55,7 +55,7 @@ namespace McpUnity.Tools
                 catch (Exception ex)
                 {
                     return McpUnitySocketHandler.CreateErrorResponse(
-                        $"Failed to add component '{scriptName}' to GameObject", 
+                        $"Failed to add component '{componentName}' to GameObject", 
                         "component_error"
                     );
                 }
@@ -80,7 +80,7 @@ namespace McpUnity.Tools
             AssetDatabase.Refresh();
             
             // Log the action
-            McpLogger.LogInfo($"Created prefab '{prefab.name}' at path '{prefabPath}' from script '{scriptName}'");
+            McpLogger.LogInfo($"Created prefab '{prefab.name}' at path '{prefabPath}' from script '{componentName}'");
             
             // Create the response
             return new JObject
@@ -92,14 +92,14 @@ namespace McpUnity.Tools
             };
         }
 
-        private Component AddComponent(GameObject gameObject, string scriptName)
+        private Component AddComponent(GameObject gameObject, string componentName)
         {
             // Find the script type
-            Type scriptType = Type.GetType($"{scriptName}, Assembly-CSharp");
+            Type scriptType = Type.GetType($"{componentName}, Assembly-CSharp");
             if (scriptType == null)
             {
                 // Try with just the class name
-                scriptType = Type.GetType(scriptName);
+                scriptType = Type.GetType(componentName);
             }
                 
             if (scriptType == null)
@@ -107,7 +107,7 @@ namespace McpUnity.Tools
                 // Try to find the type using AppDomain
                 foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
                 {
-                    scriptType = assembly.GetType(scriptName);
+                    scriptType = assembly.GetType(componentName);
                     if (scriptType != null)
                         break;
                 }
