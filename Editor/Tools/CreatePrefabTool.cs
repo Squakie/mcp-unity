@@ -71,7 +71,8 @@ namespace McpUnity.Tools
             }
             
             // Create the prefab
-            GameObject prefab = PrefabUtility.SaveAsPrefabAsset(tempObject, prefabPath);
+            bool success = false;
+            PrefabUtility.SaveAsPrefabAsset(tempObject, prefabPath, out success);
             
             // Clean up temporary object
             UnityEngine.Object.DestroyImmediate(tempObject);
@@ -80,14 +81,16 @@ namespace McpUnity.Tools
             AssetDatabase.Refresh();
             
             // Log the action
-            McpLogger.LogInfo($"Created prefab '{prefab.name}' at path '{prefabPath}' from script '{componentName}'");
+            McpLogger.LogInfo($"Created prefab '{prefabName}' at path '{prefabPath}' from script '{componentName}'");
+
+            string message = success ? $"Successfully created prefab '{prefabName}' at path '{prefabPath}'" : $"Failed to create prefab '{prefabName}' at path '{prefabPath}'";
             
             // Create the response
             return new JObject
             {
-                ["success"] = true,
+                ["success"] = success,
                 ["type"] = "text",
-                ["message"] = $"Successfully created prefab '{prefab.name}' at path '{prefabPath}'",
+                ["message"] = message,
                 ["prefabPath"] = prefabPath
             };
         }
