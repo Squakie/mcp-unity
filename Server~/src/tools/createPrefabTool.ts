@@ -1,45 +1,30 @@
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { McpUnity } from "../unity/mcpUnity.js";
-import { McpUnityError, ErrorType } from "../utils/errors.js";
-import * as z from "zod";
-import { Logger } from "../utils/logger.js";
+import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import { McpUnity } from '../unity/mcpUnity.js';
+import { McpUnityError, ErrorType } from '../utils/errors.js';
+import * as z from 'zod';
+import { Logger } from '../utils/logger.js';
 
 // Constants for the tool
-const toolName = "create_prefab";
-const toolDescription =
-  "Creates a prefab with optional MonoBehaviour script and serialized field values";
+const toolName = 'create_prefab';
+const toolDescription = 'Creates a prefab with optional MonoBehaviour script and serialized field values';
 
 // Parameter schema for the tool
 const paramsSchema = z.object({
-  componentName: z
-    .string()
-    .optional()
-    .describe(
-      "The name of the MonoBehaviour Component to add to the prefab (optional)"
-    ),
-  prefabName: z.string().describe("The name of the prefab to create"),
-  fieldValues: z
-    .record(z.any())
-    .optional()
-    .describe(
-      "Optional JSON object of serialized field values to apply to the prefab"
-    ),
+  componentName: z.string().optional().describe('The name of the MonoBehaviour Component to add to the prefab (optional)'),
+  prefabName: z.string().describe('The name of the prefab to create'),
+  fieldValues: z.record(z.any()).optional().describe('Optional JSON object of serialized field values to apply to the prefab')
 });
 
 /**
  * Creates and registers the CreatePrefab tool with the MCP server
- *
+ * 
  * @param server The MCP server to register the tool with
  * @param mcpUnity The McpUnity instance to communicate with Unity
  * @param logger The logger instance for diagnostic information
  */
-export function registerCreatePrefabTool(
-  server: McpServer,
-  mcpUnity: McpUnity,
-  logger: Logger
-) {
+export function registerCreatePrefabTool(server: McpServer, mcpUnity: McpUnity, logger: Logger) {
   logger.info(`Registering tool: ${toolName}`);
-
+  
   server.tool(
     toolName,
     toolDescription,
@@ -60,7 +45,7 @@ export function registerCreatePrefabTool(
 
 /**
  * Handler function for the CreatePrefab tool
- *
+ * 
  * @param mcpUnity The McpUnity instance to communicate with Unity
  * @param params The validated parameters for the tool
  * @returns A promise that resolves to the tool execution result
@@ -73,29 +58,27 @@ async function toolHandler(mcpUnity: McpUnity, params: any) {
       "'prefabName' must be provided"
     );
   }
-
+  
   const response = await mcpUnity.sendRequest({
     method: toolName,
-    params,
+    params
   });
-
+  
   if (!response.success) {
     throw new McpUnityError(
       ErrorType.TOOL_EXECUTION,
       response.message || `Failed to create prefab`
     );
   }
-
+  
   return {
-    content: [
-      {
-        type: response.type,
-        text: response.message || `Successfully created prefab`,
-      },
-    ],
+    content: [{
+      type: response.type,
+      text: response.message || `Successfully created prefab`
+    }],
     // Include the prefab path in the result for programmatic access
     data: {
-      prefabPath: response.prefabPath,
-    },
+      prefabPath: response.prefabPath
+    }
   };
 }
