@@ -51,14 +51,7 @@ export function registerCreatePrefabTool(server: McpServer, mcpUnity: McpUnity, 
  * @returns A promise that resolves to the tool execution result
  * @throws McpUnityError if validation fails or the request to Unity fails
  */
-async function toolHandler(mcpUnity: McpUnity, params: any) {  
-  if (!params.scriptName) {
-    throw new McpUnityError(
-      ErrorType.VALIDATION,
-      "'scriptName' must be provided"
-    );
-  }
-  
+async function toolHandler(mcpUnity: McpUnity, params: any) {
   if (!params.prefabName) {
     throw new McpUnityError(
       ErrorType.VALIDATION,
