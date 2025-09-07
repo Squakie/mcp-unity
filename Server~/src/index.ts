@@ -15,6 +15,7 @@ import { registerAddAssetToSceneTool } from './tools/addAssetToSceneTool.js';
 import { registerUpdateGameObjectTool } from './tools/updateGameObjectTool.js';
 import { registerCreatePrefabTool } from './tools/createPrefabTool.js';
 import { registerDeleteSceneTool } from './tools/deleteSceneTool.js';
+import { registerLoadSceneTool } from './tools/loadSceneTool.js';
 import { registerGetMenuItemsResource } from './resources/getMenuItemResource.js';
 import { registerGetConsoleLogsResource } from './resources/getConsoleLogsResource.js';
 import { registerGetHierarchyResource } from './resources/getScenesHierarchyResource.js';
@@ -61,6 +62,7 @@ registerUpdateGameObjectTool(server, mcpUnity, toolLogger);
 registerCreatePrefabTool(server, mcpUnity, toolLogger);
 registerCreateSceneTool(server, mcpUnity, toolLogger);
 registerDeleteSceneTool(server, mcpUnity, toolLogger);
+registerLoadSceneTool(server, mcpUnity, toolLogger);
 
 // Register all resources into the MCP server
 registerGetTestsResource(server, mcpUnity, resourceLogger);
