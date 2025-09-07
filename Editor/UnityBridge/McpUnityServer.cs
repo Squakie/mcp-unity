@@ -257,6 +257,10 @@ namespace McpUnity.Unity
             // Register CreateSceneTool
             CreateSceneTool createSceneTool = new CreateSceneTool();
             _tools.Add(createSceneTool.Name, createSceneTool);
+
+            // Register DeleteSceneTool
+            DeleteSceneTool deleteSceneTool = new DeleteSceneTool();
+            _tools.Add(deleteSceneTool.Name, deleteSceneTool);
         }
         
         /// <summary>
