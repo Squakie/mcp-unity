@@ -3,6 +3,7 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { McpUnity } from './unity/mcpUnity.js';
 import { Logger, LogLevel } from './utils/logger.js';
+import { registerCreateSceneTool } from './tools/createSceneTool.js';
 import { registerMenuItemTool } from './tools/menuItemTool.js';
 import { registerSelectGameObjectTool } from './tools/selectGameObjectTool.js';
 import { registerAddPackageTool } from './tools/addPackageTool.js';
@@ -13,6 +14,8 @@ import { registerUpdateComponentTool } from './tools/updateComponentTool.js';
 import { registerAddAssetToSceneTool } from './tools/addAssetToSceneTool.js';
 import { registerUpdateGameObjectTool } from './tools/updateGameObjectTool.js';
 import { registerCreatePrefabTool } from './tools/createPrefabTool.js';
+import { registerDeleteSceneTool } from './tools/deleteSceneTool.js';
+import { registerLoadSceneTool } from './tools/loadSceneTool.js';
 import { registerGetMenuItemsResource } from './resources/getMenuItemResource.js';
 import { registerGetConsoleLogsResource } from './resources/getConsoleLogsResource.js';
 import { registerGetHierarchyResource } from './resources/getScenesHierarchyResource.js';
@@ -57,6 +60,9 @@ registerUpdateComponentTool(server, mcpUnity, toolLogger);
 registerAddAssetToSceneTool(server, mcpUnity, toolLogger);
 registerUpdateGameObjectTool(server, mcpUnity, toolLogger);
 registerCreatePrefabTool(server, mcpUnity, toolLogger);
+registerCreateSceneTool(server, mcpUnity, toolLogger);
+registerDeleteSceneTool(server, mcpUnity, toolLogger);
+registerLoadSceneTool(server, mcpUnity, toolLogger);
 
 // Register all resources into the MCP server
 registerGetTestsResource(server, mcpUnity, resourceLogger);

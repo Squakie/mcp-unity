@@ -253,6 +253,18 @@ namespace McpUnity.Unity
             // Register CreatePrefabTool
             CreatePrefabTool createPrefabTool = new CreatePrefabTool();
             _tools.Add(createPrefabTool.Name, createPrefabTool);
+
+            // Register CreateSceneTool
+            CreateSceneTool createSceneTool = new CreateSceneTool();
+            _tools.Add(createSceneTool.Name, createSceneTool);
+
+            // Register DeleteSceneTool
+            DeleteSceneTool deleteSceneTool = new DeleteSceneTool();
+            _tools.Add(deleteSceneTool.Name, deleteSceneTool);
+
+            // Register LoadSceneTool
+            LoadSceneTool loadSceneTool = new LoadSceneTool();
+            _tools.Add(loadSceneTool.Name, loadSceneTool);
         }
         
         /// <summary>
